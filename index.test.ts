@@ -20,4 +20,32 @@ describe('Command line execution', () => {
 
     expect(output).toBe(expectedOutput);
   });
+
+  it('should alert error if there is the only one word in parameters', () => {
+    const word = 'sitting';
+    const expectedError = 'Wrong arguments. Use mpm run start --help to check syntax\n';
+
+    const output = execSync(`ts-node index.ts ${word}`, { encoding: 'utf8' });
+
+    expect(output).toBe(expectedError);
+  });
+
+  it('should alert error if there is no one word in parameters', () => {
+    const expectedError = 'Wrong arguments. Use mpm run start --help to check syntax\n';
+
+    const output = execSync(`ts-node index.ts`, { encoding: 'utf8' });
+
+    expect(output).toBe(expectedError);
+  });
+
+  it('should alert error if there are more than two words in parameters', () => {
+    const word1 = 'word1';
+    const word2 = 'word2';
+    const word3 = 'word3';
+    const expectedError = 'Wrong arguments. Use mpm run start --help to check syntax\n';
+
+    const output = execSync(`ts-node index.ts ${word1} ${word2} ${word3}`, { encoding: 'utf8' });
+
+    expect(output).toBe(expectedError);
+  });
 });
