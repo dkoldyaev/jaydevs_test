@@ -1,3 +1,7 @@
+import { parseArgs } from 'node:util';
+
+import { ErrorMessagesEnum } from "./enums";
+
 const insertIntoArray = (arr, index, newItem) => [
     // part of the array before the specified index
     ...arr.slice(0, index),
@@ -66,7 +70,31 @@ const minimalDistance = (word1, word2) => {
     }
 };
 
+const showError = () => {
+    console.log(ErrorMessagesEnum.WRONG_PARAMS_COUNT);
+};
+
 (() => {
+    let values: ReturnType<typeof parseArgs>['values'];
+    let words: ReturnType<typeof parseArgs>['positionals'];
+
+    try {
+        const args = parseArgs({
+            args: process.argv,
+            options: {},
+            allowPositionals: true
+        });
+        values = args.values;
+        words = args.positionals.slice(2);
+
+        if (words.length !== 2) {
+            throw TypeError();
+        }
+    } catch {
+        showError();
+        return;
+    }
+
     minimalDistance(process.argv[2], process.argv[3]);
 })();
 
