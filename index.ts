@@ -95,7 +95,7 @@ const showError = () => {
         return;
     }
 
-    minimalDistance(process.argv[2], process.argv[3]);
+    minimalDistance(words[0], words[1]);
 })();
 
 
