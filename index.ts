@@ -14,6 +14,11 @@ export const minimalDistance = (word1, word2) => {
         return dp[i][j];
     };
 
+export const minimalDistance = (word1, word2) => {
+    const n = word1.length;
+    const m = word2.length;
+    const dp = Array(n).fill(Array(m).fill(null));
+
     for (let i = 0; i < n; i++) {
         dp[i] = Array(m);
         for (let j = 0; j < m; j++) {
