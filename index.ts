@@ -2,17 +2,12 @@ import { parseArgs } from 'node:util';
 
 import { ErrorMessagesEnum } from "./enums";
 
-export const minimalDistance = (word1, word2) => {
-    const n = word1.length;
-    const m = word2.length;
-    const dp = Array(n);
-
-    const getDp = (i, j, dp) => {
-        if (i < 0 && j < 0) return 0;
-        if (i < 0) return j + 1;
-        if (j < 0) return i + 1;
-        return dp[i][j];
-    };
+const getDp = (i, j, dp) => {
+    if (i < 0 && j < 0) return 0;
+    if (i < 0) return j + 1;
+    if (j < 0) return i + 1;
+    return dp[i][j];
+};
 
 export const minimalDistance = (word1, word2) => {
     const n = word1.length;
@@ -20,7 +15,6 @@ export const minimalDistance = (word1, word2) => {
     const dp = Array(n).fill(Array(m).fill(null));
 
     for (let i = 0; i < n; i++) {
-        dp[i] = Array(m);
         for (let j = 0; j < m; j++) {
             dp[i][j] = Math.min(
                 getDp(i - 1, j, dp) + 1,
