@@ -2,16 +2,6 @@ import { parseArgs } from 'node:util';
 
 import { ErrorMessagesEnum } from "./enums";
 
-export const insertIntoArray = (arr, index, newItem) => [
-    // part of the array before the specified index
-    ...arr.slice(0, index),
-    // inserted item
-    newItem,
-    // part of the array after the specified index
-    ...arr.slice(index)
-]
-
-
 export const minimalDistance = (word1, word2) => {
     const n = word1.length;
     const m = word2.length;
@@ -59,7 +49,7 @@ export const minimalDistance = (word1, word2) => {
             distance = del;
             console.log(curWord.join(''));
         } else if (insert < distance) {
-            curWord = insertIntoArray(curWord, curJ + 1, word1[curI]);
+            curWord.splice(curJ + 1, 0, word1[curI]);
             curI -= 1;
             distance = insert;
             console.log(curWord.join(''));

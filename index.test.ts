@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { insertIntoArray, minimalDistance, showError } from './index';
+import { minimalDistance } from './index';
 
 
 describe('Command line execution', () => {
@@ -56,30 +56,6 @@ describe('Command line execution', () => {
   });
 });
 
-describe('insertIntoArray', () => {
-
-  afterAll(() => {
-    jest.resetAllMocks();
-  });
-
-  it('must insert correct', () => {
-    const arr = [1, 2, 3, 4, 5];
-    const toIndex = 2;
-    const insertValue = 999;
-
-    const result = insertIntoArray(arr, toIndex, insertValue);
-    expect(result).toEqual([1, 2, 999, 3, 4, 5]);
-  });
-
-  it('must insert to first', () => {
-    const arr = [1, 2, 3, 4, 5];
-    const toIndex = 0;
-    const insertValue = 999;
-
-    const result = insertIntoArray(arr, toIndex, insertValue);
-    expect(result).toEqual([999, 1, 2, 3, 4, 5]);
-  });
-});
 
 describe('minimalDistance', () => {
   const {
