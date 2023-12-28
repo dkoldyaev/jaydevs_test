@@ -2,7 +2,7 @@ import { parseArgs } from 'node:util';
 
 import { ErrorMessagesEnum } from "./enums";
 
-const insertIntoArray = (arr, index, newItem) => [
+export const insertIntoArray = (arr, index, newItem) => [
     // part of the array before the specified index
     ...arr.slice(0, index),
     // inserted item
@@ -12,7 +12,7 @@ const insertIntoArray = (arr, index, newItem) => [
 ]
 
 
-const minimalDistance = (word1, word2) => {
+export const minimalDistance = (word1, word2) => {
     const n = word1.length;
     const m = word2.length;
     const dp = Array(n);
@@ -70,7 +70,7 @@ const minimalDistance = (word1, word2) => {
     }
 };
 
-const showError = () => {
+export const showError = () => {
     console.log(ErrorMessagesEnum.WRONG_PARAMS_COUNT);
 };
 
