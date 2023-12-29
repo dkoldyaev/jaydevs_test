@@ -2,7 +2,7 @@ import { parseArgs } from 'node:util';
 
 import { ErrorMessagesEnum } from "./enums";
 
-const getDp = (i: number, j: number, dp: number[][]): number => {
+const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number => {
     if (i < 0 && j < 0) return 0;
     if (i < 0) return j + 1;
     if (j < 0) return i + 1;
@@ -17,25 +17,24 @@ export const minimalDistance = (word1: string, word2: string): void => {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
             dp[i][j] = Math.min(
-                getDp(i - 1, j, dp) + 1,
-                getDp(i, j - 1, dp) + 1,
-                getDp(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1)
+                getMinimumDistanceAtCell(i - 1, j, dp) + 1,
+                getMinimumDistanceAtCell(i, j - 1, dp) + 1,
+                getMinimumDistanceAtCell(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1)
             );
         }
     }
 
-    let distance = getDp(n - 1, m - 1, dp);
+    let distance = getMinimumDistanceAtCell(n - 1, m - 1, dp);
     console.log(distance);
     let curI = n - 1;
     let curJ = m - 1;
     let curWord = Array.from(word2);
 
-
     console.log(curWord.join(''));
     while (distance > 0) {
-        const del = getDp(curI, curJ - 1, dp);
-        const insert = getDp(curI - 1, curJ, dp);
-        const replace = getDp(curI - 1, curJ - 1, dp);
+        const del = getMinimumDistanceAtCell(curI, curJ - 1, dp);
+        const insert = getMinimumDistanceAtCell(curI - 1, curJ, dp);
+        const replace = getMinimumDistanceAtCell(curI - 1, curJ - 1, dp);
         if (replace < distance) {
             curWord[curJ] = word1[curI];
             curI -= 1;
