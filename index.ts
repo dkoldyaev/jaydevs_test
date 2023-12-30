@@ -9,6 +9,16 @@ const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number 
     return dp[i][j];
 };
 
+
+const getChangesPrices = (i: number, j: number, dp: number[][]): { del: number, insert: number, replace: number } => {
+    const insert = getMinimumDistanceAtCell(i - 1, j, dp);
+    const del = getMinimumDistanceAtCell(i, j - 1, dp);
+    const replace = getMinimumDistanceAtCell(i - 1, j - 1, dp);
+
+    return { insert, del, replace };
+};
+
+
 export const minimalDistance = (word1: string, word2: string): number => {
     const n = word1.length;
     const m = word2.length;
@@ -16,10 +26,8 @@ export const minimalDistance = (word1: string, word2: string): number => {
 
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
-            const insert = getMinimumDistanceAtCell(i - 1, j, dp) + 1;
-            const del = getMinimumDistanceAtCell(i, j - 1, dp) + 1;
-            const replace = getMinimumDistanceAtCell(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1);
-            dp[i][j] = Math.min(insert, del, replace);
+            const { insert, del, replace } = getChangesPrices(i, j, dp);
+            dp[i][j] = Math.min(insert + 1, del + 1, replace + (word1[i] === word2[j] ? 0 : 1));
         }
     }
 
@@ -33,9 +41,7 @@ export const minimalDistance = (word1: string, word2: string): number => {
 
     console.log(curWord.join(''));
     while (distance > 0) {
-        const del = getMinimumDistanceAtCell(curI, curJ - 1, dp);
-        const insert = getMinimumDistanceAtCell(curI - 1, curJ, dp);
-        const replace = getMinimumDistanceAtCell(curI - 1, curJ - 1, dp);
+        const { insert, del, replace } = getChangesPrices(curI, curJ, dp);
         if (replace < distance) {
             curWord[curJ] = word1[curI];
             curI -= 1;
