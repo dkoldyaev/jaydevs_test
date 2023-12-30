@@ -1,6 +1,6 @@
 import { parseArgs } from 'node:util';
 
-import { ErrorMessagesEnum } from "./enums";
+import { DefaultChangePrice, ErrorMessagesEnum } from "./enums";
 
 const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number => {
     if (i < 0 && j < 0) return 0;
@@ -27,11 +27,15 @@ export const minimalDistance = (word1: string, word2: string): number => {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
             const { insert, del, replace } = getChangesPrices(i, j, dp);
-            dp[i][j] = Math.min(insert + 1, del + 1, replace + (word1[i] === word2[j] ? 0 : 1));
+            dp[i][j] = Math.min(
+                insert + DefaultChangePrice.INSERT,
+                del + DefaultChangePrice.DELETE,
+                replace + (word1[i] === word2[j] ? 0 : DefaultChangePrice.REPlACE)
+            );
         }
     }
 
-    let distance = getMinimumDistanceAtCell(n - 1, m - 1, dp);
+    let distance = dp[n - 1][m - 1];
     const result = distance;
 
     console.log(distance);
