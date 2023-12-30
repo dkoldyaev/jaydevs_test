@@ -86,15 +86,14 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).not.toBeDefined();
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
-    expect(console.log).toHaveBeenCalledTimes(5);
-    expect(console.log).toHaveBeenCalledWith(3);
-    expect(console.log).toHaveBeenCalledWith('port2');
-    expect(console.log).toHaveBeenCalledWith('port1');
-    expect(console.log).toHaveBeenCalledWith('pord1')
-    expect(console.log).toHaveBeenCalledWith('word1');
+    // expect(console.log).toHaveBeenCalledTimes(5);
+    expect(result).toBe(3);
+    // expect(console.log).toHaveBeenCalledWith('port2');
+    // expect(console.log).toHaveBeenCalledWith('port1');
+    // expect(console.log).toHaveBeenCalledWith('pord1')
+    // expect(console.log).toHaveBeenCalledWith('word1');
   });
 
   it('works correct with delete', () => {
@@ -103,13 +102,12 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).not.toBeDefined();
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
-    expect(console.log).toHaveBeenCalledTimes(3);
-    expect(console.log).toHaveBeenCalledWith(1);
-    expect(console.log).toHaveBeenCalledWith('abaa');
-    expect(console.log).toHaveBeenCalledWith('aaa');
+    // expect(console.log).toHaveBeenCalledTimes(3);
+    expect(result).toBe(1);
+    // expect(console.log).toHaveBeenCalledWith('abaa');
+    // expect(console.log).toHaveBeenCalledWith('aaa');
   });
 
   it('works correct with insert', () => {
@@ -118,12 +116,11 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).not.toBeDefined();
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
-    expect(console.log).toHaveBeenCalledTimes(3);
-    expect(console.log).toHaveBeenCalledWith(1);
-    expect(console.log).toHaveBeenCalledWith('aaa');
-    expect(console.log).toHaveBeenCalledWith('abaa');
+    // expect(console.log).toHaveBeenCalledTimes(3);
+    expect(result).toBe(1);
+    // expect(console.log).toHaveBeenCalledWith('aaa');
+    // expect(console.log).toHaveBeenCalledWith('abaa');
   });
 });

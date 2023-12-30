@@ -9,22 +9,23 @@ const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number 
     return dp[i][j];
 };
 
-export const minimalDistance = (word1: string, word2: string): void => {
+export const minimalDistance = (word1: string, word2: string): number => {
     const n = word1.length;
     const m = word2.length;
     const dp = Array(n).fill(null).map(() => Array(m).fill(null));
 
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
-            dp[i][j] = Math.min(
-                getMinimumDistanceAtCell(i - 1, j, dp) + 1,
-                getMinimumDistanceAtCell(i, j - 1, dp) + 1,
-                getMinimumDistanceAtCell(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1)
-            );
+            const insert = getMinimumDistanceAtCell(i - 1, j, dp) + 1;
+            const del = getMinimumDistanceAtCell(i, j - 1, dp) + 1;
+            const replace = getMinimumDistanceAtCell(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1);
+            dp[i][j] = Math.min(insert, del, replace);
         }
     }
 
     let distance = getMinimumDistanceAtCell(n - 1, m - 1, dp);
+    const result = distance;
+
     console.log(distance);
     let curI = n - 1;
     let curJ = m - 1;
@@ -56,6 +57,8 @@ export const minimalDistance = (word1: string, word2: string): void => {
             curJ -= 1;
         }
     }
+
+    return result;
 };
 
 export const showError = () => {
