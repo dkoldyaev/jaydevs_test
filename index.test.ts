@@ -89,7 +89,7 @@ describe('minimalDistance', () => {
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
     // expect(console.log).toHaveBeenCalledTimes(5);
-    expect(result).toBe(3);
+    expect(result).toEqual({ maxDistance: 3, processChais: ['port2', 'port1', 'pord1', 'word1'] });
     // expect(console.log).toHaveBeenCalledWith('port2');
     // expect(console.log).toHaveBeenCalledWith('port1');
     // expect(console.log).toHaveBeenCalledWith('pord1')
@@ -105,7 +105,7 @@ describe('minimalDistance', () => {
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
     // expect(console.log).toHaveBeenCalledTimes(3);
-    expect(result).toBe(1);
+    expect(result).toEqual({ maxDistance: 1, processChais: ['abaa', 'aaa'] });
     // expect(console.log).toHaveBeenCalledWith('abaa');
     // expect(console.log).toHaveBeenCalledWith('aaa');
   });
@@ -119,7 +119,7 @@ describe('minimalDistance', () => {
     expect(console.error).not.toHaveBeenCalled();
     expect(console.warn).not.toHaveBeenCalled();
     // expect(console.log).toHaveBeenCalledTimes(3);
-    expect(result).toBe(1);
+    expect(result).toEqual({ maxDistance: 1, processChais: ['aaa', 'abaa'] });
     // expect(console.log).toHaveBeenCalledWith('aaa');
     // expect(console.log).toHaveBeenCalledWith('abaa');
   });

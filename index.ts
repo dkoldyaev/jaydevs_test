@@ -19,7 +19,13 @@ const getChangesPrices = (i: number, j: number, dp: number[][]): { del: number, 
 };
 
 
-export const minimalDistance = (word1: string, word2: string): number => {
+export const minimalDistance = (
+    word1: string,
+    word2: string
+): {
+    maxDistance: number,
+    processChais: string[],
+} => {
     const n = word1.length;
     const m = word2.length;
     const dp = Array(n).fill(null).map(() => Array(m).fill(null));
@@ -35,40 +41,39 @@ export const minimalDistance = (word1: string, word2: string): number => {
         }
     }
 
-    let distance = dp[n - 1][m - 1];
-    const result = distance;
-
-    console.log(distance);
-    let curI = n - 1;
-    let curJ = m - 1;
+    const maxDistance = dp[n - 1][m - 1];
+    const processChais: string[] = [];
+    let currentDistance = maxDistance;
+    let curentI = n - 1;
+    let curentJ = m - 1;
     let curWord = Array.from(word2);
 
-    console.log(curWord.join(''));
-    while (distance > 0) {
-        const { insert, del, replace } = getChangesPrices(curI, curJ, dp);
-        if (replace < distance) {
-            curWord[curJ] = word1[curI];
-            curI -= 1;
-            curJ -= 1;
-            distance = replace;
-            console.log(curWord.join(''));
-        } else if (del < distance) {
-            curWord[curJ] = '';
-            curJ -= 1;
-            distance = del;
-            console.log(curWord.join(''));
-        } else if (insert < distance) {
-            curWord.splice(curJ + 1, 0, word1[curI]);
-            curI -= 1;
-            distance = insert;
-            console.log(curWord.join(''));
+    processChais.push(curWord.join(''));
+    while (currentDistance > 0) {
+        const { insert, del, replace } = getChangesPrices(curentI, curentJ, dp);
+        if (replace < currentDistance) {
+            curWord[curentJ] = word1[curentI];
+            curentI -= 1;
+            curentJ -= 1;
+            currentDistance = replace;
+            processChais.push(curWord.join(''));
+        } else if (del < currentDistance) {
+            curWord[curentJ] = '';
+            curentJ -= 1;
+            currentDistance = del;
+            processChais.push(curWord.join(''));
+        } else if (insert < currentDistance) {
+            curWord.splice(curentJ + 1, 0, word1[curentI]);
+            curentI -= 1;
+            currentDistance = insert;
+            processChais.push(curWord.join(''));
         } else {
-            curI -= 1;
-            curJ -= 1;
+            curentI -= 1;
+            curentJ -= 1;
         }
     }
 
-    return result;
+    return { maxDistance, processChais };
 };
 
 export const showError = () => {
@@ -96,7 +101,10 @@ export const showError = () => {
         return;
     }
 
-    minimalDistance(words[0], words[1]);
+    const { maxDistance, processChais } = minimalDistance(words[0], words[1]);
+
+    console.log(maxDistance);
+    console.log(processChais.join('\n'));
 })();
 
 
