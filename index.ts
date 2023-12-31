@@ -1,76 +1,82 @@
 import { parseArgs } from 'node:util';
 
-import { ErrorMessagesEnum } from "./enums";
+import { DefaultChangePrice, ErrorMessagesEnum } from "./enums";
 
-const insertIntoArray = (arr, index, newItem) => [
-    // part of the array before the specified index
-    ...arr.slice(0, index),
-    // inserted item
-    newItem,
-    // part of the array after the specified index
-    ...arr.slice(index)
-]
+const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number => {
+    if (i < 0 && j < 0) return 0;
+    if (i < 0) return j + 1;
+    if (j < 0) return i + 1;
+    return dp[i][j];
+};
 
 
-const minimalDistance = (word1, word2) => {
+const getChangesPrices = (i: number, j: number, dp: number[][]): { del: number, insert: number, replace: number } => {
+    const insert = getMinimumDistanceAtCell(i - 1, j, dp);
+    const del = getMinimumDistanceAtCell(i, j - 1, dp);
+    const replace = getMinimumDistanceAtCell(i - 1, j - 1, dp);
+
+    return { insert, del, replace };
+};
+
+
+export const minimalDistance = (
+    word1: string,
+    word2: string
+): {
+    maxDistance: number,
+    processChais: string[],
+} => {
     const n = word1.length;
     const m = word2.length;
-    const dp = Array(n);
-
-    const getDp = (i, j, dp) => {
-        if (i < 0 && j < 0) return 0;
-        if (i < 0) return j + 1;
-        if (j < 0) return i + 1;
-        return dp[i][j];
-    };
+    const dp = Array(n).fill(null).map(() => Array(m).fill(null));
 
     for (let i = 0; i < n; i++) {
-        dp[i] = Array(m);
         for (let j = 0; j < m; j++) {
+            const { insert, del, replace } = getChangesPrices(i, j, dp);
             dp[i][j] = Math.min(
-                getDp(i - 1, j, dp) + 1,
-                getDp(i, j - 1, dp) + 1,
-                getDp(i - 1, j - 1, dp) + (word1[i] === word2[j] ? 0 : 1)
+                insert + DefaultChangePrice.INSERT,
+                del + DefaultChangePrice.DELETE,
+                replace + (word1[i] === word2[j] ? 0 : DefaultChangePrice.REPlACE)
             );
         }
     }
 
-    let distance = getDp(n - 1, m - 1, dp);
-    console.log(distance);
-    let curI = n - 1;
-    let curJ = m - 1;
+    const maxDistance = dp[n - 1][m - 1];
+    const processChais: string[] = [];
+    let currentDistance = maxDistance;
+    let curentI = n - 1;
+    let curentJ = m - 1;
     let curWord = Array.from(word2);
 
-
-    console.log(curWord.join(''));
-    while (distance > 0) {
-        const del = getDp(curI, curJ - 1, dp);
-        const insert = getDp(curI - 1, curJ, dp);
-        const replace = getDp(curI - 1, curJ - 1, dp);
-        if (replace < distance) {
-            curWord[curJ] = word1[curI];
-            curI -= 1;
-            curJ -= 1;
-            distance = replace;
-            console.log(curWord.join(''));
-        } else if (del < distance) {
-            curWord[curJ] = '';
-            curJ -= 1;
-            distance = del;
-            console.log(curWord.join(''));
-        } else if (insert < distance) {
-            curWord = insertIntoArray(curWord, curJ + 1, word1[curI]);
-            curI -= 1;
-            distance = insert;
-            console.log(curWord.join(''));
+    processChais.push(curWord.join(''));
+    while (currentDistance > 0) {
+        const { insert, del, replace } = getChangesPrices(curentI, curentJ, dp);
+        if (replace < currentDistance) {
+            curWord[curentJ] = word1[curentI];
+            curentI -= 1;
+            curentJ -= 1;
+            currentDistance = replace;
+            processChais.push(curWord.join(''));
+        } else if (del < currentDistance) {
+            curWord[curentJ] = '';
+            curentJ -= 1;
+            currentDistance = del;
+            processChais.push(curWord.join(''));
+        } else if (insert < currentDistance) {
+            curWord.splice(curentJ + 1, 0, word1[curentI]);
+            curentI -= 1;
+            currentDistance = insert;
+            processChais.push(curWord.join(''));
         } else {
-            curI -= 1;
-            curJ -= 1;
+            curentI -= 1;
+            curentJ -= 1;
         }
     }
+
+    return { maxDistance, processChais };
 };
 
-const showError = () => {
+export const showError = () => {
     console.log(ErrorMessagesEnum.WRONG_PARAMS_COUNT);
 };
 
@@ -95,7 +101,10 @@ const showError = () => {
         return;
     }
 
-    minimalDistance(words[0], words[1]);
+    const { maxDistance, processChais } = minimalDistance(words[0], words[1]);
+
+    console.log(maxDistance);
+    console.log(processChais.join('\n'));
 })();
 
 
