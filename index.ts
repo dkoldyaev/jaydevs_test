@@ -1,7 +1,7 @@
 import yargs from 'yargs';
 
-import { showError, minimalDistance } from "./minimal-distance";
-import { ErrorMessagesEnum } from './enums';
+import { showError, minimalDistance } from "./src/minimal-distance";
+import { ErrorMessagesEnum } from './src/enums';
 
 (() => {
     const args = yargs
