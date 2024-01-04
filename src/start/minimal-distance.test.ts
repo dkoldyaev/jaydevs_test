@@ -8,7 +8,7 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).toEqual({ maxDistance: 3, processChais: ['port2', 'port1', 'pord1', 'word1'] });
+    expect(result).toEqual({ maxDistance: 3, processChains: ['port2', 'port1', 'pord1', 'word1'] });
   });
 
   it('works correct with delete', () => {
@@ -17,7 +17,7 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).toEqual({ maxDistance: 1, processChais: ['abaa', 'aaa'] });
+    expect(result).toEqual({ maxDistance: 1, processChains: ['abaa', 'aaa'] });
   });
 
   it('works correct with insert', () => {
@@ -26,6 +26,6 @@ describe('minimalDistance', () => {
 
     const result = minimalDistance(word1, word2);
 
-    expect(result).toEqual({ maxDistance: 1, processChais: ['aaa', 'abaa'] });
+    expect(result).toEqual({ maxDistance: 1, processChains: ['aaa', 'abaa'] });
   });
 });

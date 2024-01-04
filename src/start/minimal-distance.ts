@@ -1,4 +1,4 @@
-import { DefaultChangePrice, ErrorMessagesEnum } from "./enums";
+import { DefaultChangePrice, ErrorMessagesEnum } from "../enums";
 
 const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number => {
     if (i < 0 && j < 0) return 0;
@@ -22,7 +22,7 @@ export const minimalDistance = (
     word2: string
 ): {
     maxDistance: number,
-    processChais: string[],
+    processChains: string[],
 } => {
     const n = word1.length;
     const m = word2.length;
@@ -40,13 +40,13 @@ export const minimalDistance = (
     }
 
     const maxDistance = dp[n - 1][m - 1];
-    const processChais: string[] = [];
+    const processChains: string[] = [];
     let currentDistance = maxDistance;
     let curentI = n - 1;
     let curentJ = m - 1;
     let curWord = Array.from(word2);
 
-    processChais.push(curWord.join(''));
+    processChains.push(curWord.join(''));
     while (currentDistance > 0) {
         const { insert, del, replace } = getChangesPrices(curentI, curentJ, dp);
         if (replace < currentDistance) {
@@ -54,26 +54,22 @@ export const minimalDistance = (
             curentI -= 1;
             curentJ -= 1;
             currentDistance = replace;
-            processChais.push(curWord.join(''));
+            processChains.push(curWord.join(''));
         } else if (del < currentDistance) {
             curWord[curentJ] = '';
             curentJ -= 1;
             currentDistance = del;
-            processChais.push(curWord.join(''));
+            processChains.push(curWord.join(''));
         } else if (insert < currentDistance) {
             curWord.splice(curentJ + 1, 0, word1[curentI]);
             curentI -= 1;
             currentDistance = insert;
-            processChais.push(curWord.join(''));
+            processChains.push(curWord.join(''));
         } else {
             curentI -= 1;
             curentJ -= 1;
         }
     }
 
-    return { maxDistance, processChais };
-};
-
-export const showError = () => {
-    console.log(ErrorMessagesEnum.WRONG_PARAMS_COUNT);
+    return { maxDistance, processChains: processChains };
 };
