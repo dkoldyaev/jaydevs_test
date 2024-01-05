@@ -40,8 +40,8 @@ describe('startAction', () => {
     startAction(word1, word2, costs);
 
     expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, costs);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp, costs);
-    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp, costs);
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
+    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
     expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
@@ -60,8 +60,8 @@ describe('startAction', () => {
     startAction(word1, word2, { numberOnly: false, ...costs });
 
     expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, costs);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp, costs);
-    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp, costs);
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
+    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
     expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
@@ -80,7 +80,7 @@ describe('startAction', () => {
     startAction(word1, word2, { numberOnly: true, ...costs });
 
     expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, costs);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp, costs);
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
     expect(buildChains).not.toHaveBeenCalled();
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');

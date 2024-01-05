@@ -33,7 +33,7 @@ export const buildDistancesMatrix = (
                 del + (costDelete || DefaultChangePrice.DELETE),
                 replace + (word1[i] === word2[j]
                     ? 0
-                    : (costReplace || DefaultChangePrice.REPlACE)
+                    : (costReplace || DefaultChangePrice.REPLACE)
                 )
             );
         }

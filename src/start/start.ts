@@ -7,11 +7,11 @@ export const startAction = (
   { numberOnly, ...costs }: TStartActionParams
 ): void => {
   const dp = buildDistancesMatrix(word1, word2, costs);
-  const minDistance = getMinDistance(dp, costs);
+  const minDistance = getMinDistance(dp);
   console.log(minDistance);
 
   if (!numberOnly) {
-    const chains = buildChains(word1, word2, dp, costs);
+    const chains = buildChains(word1, word2, dp);
     console.log(chains.join('\n'));
   }
 }
