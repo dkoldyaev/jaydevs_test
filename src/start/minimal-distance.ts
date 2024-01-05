@@ -34,7 +34,7 @@ export const minimalDistance = (
             dp[i][j] = Math.min(
                 insert + DefaultChangePrice.INSERT,
                 del + DefaultChangePrice.DELETE,
-                replace + (word1[i] === word2[j] ? 0 : DefaultChangePrice.REPlACE)
+                replace + (word1[i] === word2[j] ? 0 : DefaultChangePrice.REPLACE)
             );
         }
     }

@@ -5,6 +5,6 @@ export enum ErrorMessagesEnum {
 
 export enum DefaultChangePrice {
   DELETE = 1,
-  REPlACE = 1,
+  REPLACE = 1,
   INSERT = 1,
 }
