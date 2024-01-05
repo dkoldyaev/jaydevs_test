@@ -22,7 +22,7 @@ yargs
     ({ word1, word2, _ }) => {
       try {
         startAction(word1, word2);
-      } catch (err) {
+      } catch (err: unknown) {
         showError(err);
       }
     }
