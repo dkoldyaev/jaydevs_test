@@ -1,31 +1,70 @@
+import { buildChains, buildDistancesMatrix, getMinDistance } from './minimal-distance';
 
-import { minimalDistance } from './minimal-distance';
-
-describe('minimalDistance', () => {
-  it('works correct with only replace', () => {
-    const word1 = 'word1';
-    const word2 = 'port2';
-
-    const result = minimalDistance(word1, word2);
-
-    expect(result).toEqual({ maxDistance: 3, processChains: ['port2', 'port1', 'pord1', 'word1'] });
-  });
-
-  it('works correct with delete', () => {
+describe('buildDistancesMatrix', () => {
+  it('two different words', () => {
     const word1 = 'aaa';
-    const word2 = 'abaa';
+    const word2 = 'bbb';
 
-    const result = minimalDistance(word1, word2);
-
-    expect(result).toEqual({ maxDistance: 1, processChains: ['abaa', 'aaa'] });
+    const result = buildDistancesMatrix(word1, word2);
+    expect(result).toEqual([[1, 2, 3], [2, 2, 3], [3, 3, 3]]);
   });
 
-  it('works correct with insert', () => {
-    const word1 = 'abaa';
+  it('two different words with one same symbol', () => {
+    const word1 = 'aaa';
+    const word2 = 'bca';
+
+    const result = buildDistancesMatrix(word1, word2);
+    expect(result).toEqual([[1, 2, 2], [2, 2, 2], [3, 3, 2]]);
+  });
+
+  it('two equal words', () => {
+    const word1 = 'aaa';
     const word2 = 'aaa';
 
-    const result = minimalDistance(word1, word2);
+    const result = buildDistancesMatrix(word1, word2);
+    expect(result).toEqual([[0, 1, 2], [1, 0, 1], [2, 1, 0]]);
+  });
+});
 
-    expect(result).toEqual({ maxDistance: 1, processChains: ['aaa', 'abaa'] });
+describe('getMinDistance', () => {
+  it('should return right bottom value', () => {
+    const dp = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+    expect(getMinDistance(dp)).toBe(9);
+  });
+});
+
+describe('buildChains', () => {
+  it('should return correct list for two dirrence words with replace', () => {
+    const word1 = 'aaa';
+    const word2 = 'bca';
+    const dp = [
+      [1, 2, 2],
+      [2, 2, 2],
+      [3, 3, 2],
+    ];
+    expect(buildChains(word1, word2, dp)).toEqual([word2, 'baa', 'aaa']);
+  });
+
+  it('should return correct list for two dirrence words with delete', () => {
+    const word1 = 'mck';
+    const word2 = 'mock';
+    const dp = [
+      [0, 1, 2, 3],
+      [1, 1, 1, 2],
+      [2, 2, 2, 1],
+    ];
+    expect(buildChains(word1, word2, dp)).toEqual([word2, word1]);
+  });
+
+  it('should return correct list for two dirrence words with insert', () => {
+    const word1 = 'mock';
+    const word2 = 'mck';
+    const dp = [
+      [0, 1, 2],
+      [1, 1, 2],
+      [2, 1, 2],
+      [3, 2, 1],
+    ];
+    expect(buildChains(word1, word2, dp)).toEqual([word2, word1]);
   });
 });
