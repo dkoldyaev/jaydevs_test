@@ -17,19 +17,14 @@ const getChangesPrices = (i: number, j: number, dp: number[][]): { del: number, 
 };
 
 
-export const minimalDistance = (
+export const buildDistancesMatrix = (
     word1: string,
-    word2: string
-): {
-    maxDistance: number,
-    processChains: string[],
-} => {
-    const n = word1.length;
-    const m = word2.length;
-    const dp = Array(n).fill(null).map(() => Array(m).fill(null));
+    word2: string,
+): number[][] => {
+    const dp = Array(word1.length).fill(null).map(() => Array(word2.length).fill(null));
 
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < m; j++) {
+    for (let i = 0; i < word1.length; i++) {
+        for (let j = 0; j < word2.length; j++) {
             const { insert, del, replace } = getChangesPrices(i, j, dp);
             dp[i][j] = Math.min(
                 insert + DefaultChangePrice.INSERT,
@@ -39,11 +34,22 @@ export const minimalDistance = (
         }
     }
 
-    const maxDistance = dp[n - 1][m - 1];
+    return dp;
+};
+
+
+export const getMinDistance = (dp: number[][]): number => {
+    const n = dp.length;
+    const m = dp[n - 1].length;
+    return dp[n - 1][m - 1];
+};
+
+
+export const buildChains = (word1: string, word2: string, dp: number[][]): string[] => {
     const processChains: string[] = [];
-    let currentDistance = maxDistance;
-    let curentI = n - 1;
-    let curentJ = m - 1;
+    let currentDistance = getMinDistance(dp);
+    let curentI = word1.length - 1;
+    let curentJ = word2.length - 1;
     let curWord = Array.from(word2);
 
     processChains.push(curWord.join(''));
@@ -71,5 +77,5 @@ export const minimalDistance = (
         }
     }
 
-    return { maxDistance, processChains: processChains };
+    return processChains;
 };
