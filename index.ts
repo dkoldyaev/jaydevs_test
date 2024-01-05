@@ -1,11 +1,11 @@
 import yargs from "yargs";
 import { ErrorMessagesEnum } from "./src/enums";
 import { showError } from "./src/error";
-import startAction, { TStartActionParams } from "./src/start";
+import startAction, { TStartActionCommandParams } from "./src/start";
 
 yargs
   .usage('Usage: npm run <command> -- [options]')
-  .command<TStartActionParams>(
+  .command<TStartActionCommandParams>(
     'start <word1> <word2>',
     'Find minimal distance between two words.',
     yargs => {

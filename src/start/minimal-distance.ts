@@ -45,7 +45,6 @@ export const buildDistancesMatrix = (
 
 export const getMinDistance = (
     dp: number[][],
-    costs: TMinimalDistanceCosts,
 ): number => {
     const n = dp.length;
     const m = dp[n - 1].length;
@@ -57,10 +56,9 @@ export const buildChains = (
     word1: string,
     word2: string,
     dp: number[][],
-    costs: TMinimalDistanceCosts,
 ): string[] => {
     const processChains: string[] = [];
-    let currentDistance = getMinDistance(dp, costs);
+    let currentDistance = getMinDistance(dp);
     let curentI = word1.length - 1;
     let curentJ = word2.length - 1;
     let curWord = Array.from(word2);
