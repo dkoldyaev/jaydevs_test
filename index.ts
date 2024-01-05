@@ -1,11 +1,11 @@
 import yargs from "yargs";
 import { ErrorMessagesEnum } from "./src/enums";
 import { showError } from "./src/error";
-import startAction from "./src/start";
+import startAction, { TStartActionCommandParams } from "./src/start";
 
 yargs
   .usage('Usage: npm run <command> -- [options]')
-  .command<{ word1: string, word2: string, 'number-only': boolean }>(
+  .command<TStartActionCommandParams>(
     'start <word1> <word2>',
     'Find minimal distance between two words.',
     yargs => {
@@ -22,11 +22,26 @@ yargs
           describe: 'Print only numbers of mutations',
           type: 'boolean'
         })
+        .options('cost-delete', {
+          describe: 'price for delete',
+          type: 'number',
+          default: 1,
+        })
+        .options('cost-replace', {
+          describe: 'price for delete',
+          type: 'number',
+          default: 1,
+        })
+        .options('cost-insert', {
+          describe: 'price for delete',
+          type: 'number',
+          default: 1,
+        })
         .alias('n', 'number-only')
     },
-    ({ word1, word2, numberOnly }) => {
+    ({ word1, word2, ...params }) => {
       try {
-        startAction(word1, word2, numberOnly);
+        startAction(word1, word2, params);
       } catch (err: unknown) {
         showError(err);
       }
