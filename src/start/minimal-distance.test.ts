@@ -4,8 +4,9 @@ describe('buildDistancesMatrix', () => {
   it('two different words', () => {
     const word1 = 'aaa';
     const word2 = 'bbb';
+    const costs = {};
 
-    const result = buildDistancesMatrix(word1, word2);
+    const result = buildDistancesMatrix(word1, word2, costs);
     expect(result).toEqual([[1, 2, 3], [2, 2, 3], [3, 3, 3]]);
   });
 
@@ -13,7 +14,7 @@ describe('buildDistancesMatrix', () => {
     const word1 = 'aaa';
     const word2 = 'bca';
 
-    const result = buildDistancesMatrix(word1, word2);
+    const result = buildDistancesMatrix(word1, word2, {});
     expect(result).toEqual([[1, 2, 2], [2, 2, 2], [3, 3, 2]]);
   });
 
@@ -21,7 +22,7 @@ describe('buildDistancesMatrix', () => {
     const word1 = 'aaa';
     const word2 = 'aaa';
 
-    const result = buildDistancesMatrix(word1, word2);
+    const result = buildDistancesMatrix(word1, word2, {});
     expect(result).toEqual([[0, 1, 2], [1, 0, 1], [2, 1, 0]]);
   });
 });
@@ -29,7 +30,7 @@ describe('buildDistancesMatrix', () => {
 describe('getMinDistance', () => {
   it('should return right bottom value', () => {
     const dp = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-    expect(getMinDistance(dp)).toBe(9);
+    expect(getMinDistance(dp, {})).toBe(9);
   });
 });
 
@@ -42,7 +43,7 @@ describe('buildChains', () => {
       [2, 2, 2],
       [3, 3, 2],
     ];
-    expect(buildChains(word1, word2, dp)).toEqual([word2, 'baa', 'aaa']);
+    expect(buildChains(word1, word2, dp, {})).toEqual([word2, 'baa', 'aaa']);
   });
 
   it('should return correct list for two dirrence words with delete', () => {
@@ -53,7 +54,7 @@ describe('buildChains', () => {
       [1, 1, 1, 2],
       [2, 2, 2, 1],
     ];
-    expect(buildChains(word1, word2, dp)).toEqual([word2, word1]);
+    expect(buildChains(word1, word2, dp, {})).toEqual([word2, word1]);
   });
 
   it('should return correct list for two dirrence words with insert', () => {
@@ -65,6 +66,6 @@ describe('buildChains', () => {
       [2, 1, 2],
       [3, 2, 1],
     ];
-    expect(buildChains(word1, word2, dp)).toEqual([word2, word1]);
+    expect(buildChains(word1, word2, dp, {})).toEqual([word2, word1]);
   });
 });
