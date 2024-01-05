@@ -1,4 +1,5 @@
-import { DefaultChangePrice, ErrorMessagesEnum } from "../enums";
+import { DefaultChangePrice } from "../enums";
+import { TMinimalDistanceCosts } from "./types";
 
 const getMinimumDistanceAtCell = (i: number, j: number, dp: number[][]): number => {
     if (i < 0 && j < 0) return 0;
@@ -20,6 +21,7 @@ const getChangesPrices = (i: number, j: number, dp: number[][]): { del: number, 
 export const buildDistancesMatrix = (
     word1: string,
     word2: string,
+    { costDelete, costInsert, costReplace }: TMinimalDistanceCosts
 ): number[][] => {
     const dp = Array(word1.length).fill(null).map(() => Array(word2.length).fill(null));
 
@@ -27,9 +29,12 @@ export const buildDistancesMatrix = (
         for (let j = 0; j < word2.length; j++) {
             const { insert, del, replace } = getChangesPrices(i, j, dp);
             dp[i][j] = Math.min(
-                insert + DefaultChangePrice.INSERT,
-                del + DefaultChangePrice.DELETE,
-                replace + (word1[i] === word2[j] ? 0 : DefaultChangePrice.REPLACE)
+                insert + (costInsert || DefaultChangePrice.INSERT),
+                del + (costDelete || DefaultChangePrice.DELETE),
+                replace + (word1[i] === word2[j]
+                    ? 0
+                    : (costReplace || DefaultChangePrice.REPlACE)
+                )
             );
         }
     }
@@ -38,16 +43,24 @@ export const buildDistancesMatrix = (
 };
 
 
-export const getMinDistance = (dp: number[][]): number => {
+export const getMinDistance = (
+    dp: number[][],
+    costs: TMinimalDistanceCosts,
+): number => {
     const n = dp.length;
     const m = dp[n - 1].length;
     return dp[n - 1][m - 1];
 };
 
 
-export const buildChains = (word1: string, word2: string, dp: number[][]): string[] => {
+export const buildChains = (
+    word1: string,
+    word2: string,
+    dp: number[][],
+    costs: TMinimalDistanceCosts,
+): string[] => {
     const processChains: string[] = [];
-    let currentDistance = getMinDistance(dp);
+    let currentDistance = getMinDistance(dp, costs);
     let curentI = word1.length - 1;
     let curentJ = word2.length - 1;
     let curWord = Array.from(word2);

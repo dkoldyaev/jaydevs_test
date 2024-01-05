@@ -36,11 +36,11 @@ describe('startAction', () => {
     (buildDistancesMatrix as jest.Mock).mockReturnValue(mockDp);
     (getMinDistance as jest.Mock).mockReturnValue('mock-distance');
     (buildChains as jest.Mock).mockReturnValue(['mock-1', 'mock-2']);
-    startAction(word1, word2);
+    startAction(word1, word2, {});
 
-    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
-    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
+    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, {});
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp, {});
+    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp, {});
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
     expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
@@ -55,11 +55,11 @@ describe('startAction', () => {
     (buildDistancesMatrix as jest.Mock).mockReturnValue(mockDp);
     (getMinDistance as jest.Mock).mockReturnValue('mock-distance');
     (buildChains as jest.Mock).mockReturnValue(['mock-1', 'mock-2']);
-    startAction(word1, word2, false);
+    startAction(word1, word2, { numberOnly: false });
 
-    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
-    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
+    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, {});
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp, {});
+    expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp, {});
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
     expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
@@ -74,10 +74,10 @@ describe('startAction', () => {
     (buildDistancesMatrix as jest.Mock).mockReturnValue(mockDp);
     (getMinDistance as jest.Mock).mockReturnValue('mock-distance');
     (buildChains as jest.Mock).mockReturnValue(['mock-1', 'mock-2']);
-    startAction(word1, word2, true);
+    startAction(word1, word2, { numberOnly: true });
 
-    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2);
-    expect(getMinDistance).toHaveBeenCalledWith(mockDp);
+    expect(buildDistancesMatrix).toHaveBeenCalledWith(word1, word2, {});
+    expect(getMinDistance).toHaveBeenCalledWith(mockDp, {});
     expect(buildChains).not.toHaveBeenCalled();
 
     expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');

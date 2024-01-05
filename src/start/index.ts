@@ -1,5 +1,6 @@
 import { startAction } from './start';
 
-export { ErrorStart } from './error';
+export * from './error';
+export * from './types';
 
 export default startAction;
