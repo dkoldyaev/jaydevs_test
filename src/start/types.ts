@@ -1,6 +1,6 @@
-import { CamelCaseKey } from "yargs";
+import { CamelCaseKey } from 'yargs';
 
-type TCamelCaseOptions<T = {}> = { [key in keyof T as key | CamelCaseKey<key>]: T[key] };
+type TCamelCaseOptions<T = Record<string, string | number | boolean>> = { [key in keyof T as key | CamelCaseKey<key>]: T[key] };
 
 export type TStartActionWordsParams = {
   word1: string,

@@ -1,7 +1,7 @@
-import yargs from "yargs";
-import { ErrorMessagesEnum } from "./src/enums";
-import { showError } from "./src/error";
-import startAction, { TStartActionCommandParams } from "./src/start";
+import yargs from 'yargs';
+import { ErrorMessagesEnum } from './src/enums';
+import { showError } from './src/error';
+import startAction, { TStartActionCommandParams } from './src/start';
 
 yargs
   .usage('Usage: npm run <command> -- [options]')
@@ -37,7 +37,7 @@ yargs
           type: 'number',
           default: 1,
         })
-        .alias('n', 'number-only')
+        .alias('n', 'number-only');
     },
     ({ word1, word2, ...params }) => {
       try {

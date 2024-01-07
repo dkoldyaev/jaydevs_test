@@ -1,4 +1,4 @@
-import { ErrorStart } from "./start";
+import { ErrorStart } from './start';
 
 export type TError = Error | ErrorStart;
 
