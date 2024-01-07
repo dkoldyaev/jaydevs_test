@@ -26,7 +26,7 @@ describe('startAction', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
   it('should log result of startCommand to console when numbers only is not defined', () => {
     const word1 = 'word1';
