@@ -1,11 +1,12 @@
 import { ErrorStart } from './start';
+import { stderr } from './stdout';
 
 export type TError = Error | ErrorStart;
 
 export const showError = (error: unknown) => {
   if (error instanceof ErrorStart) {
-    return console.error(`start: ${error.message}`);
+    return stderr(`start: ${error.message}`);
   }
 
-  return console.error(error);
+  return stderr(String(error));
 };
