@@ -1,26 +1,25 @@
 import { showError } from './error';
 import { ErrorStart } from './start';
+import { stderr } from './stdout';
+
+jest.mock('./stdout', () => ({
+  stderr: jest.fn(),
+}));
 
 describe('showError', () => {
-  let consoleErrorMock;
-
-  beforeEach(() => {
-    consoleErrorMock = jest.spyOn(console, 'error');
-  });
-
-  afterEach(() => {
-    consoleErrorMock.mockRestore();
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   it('should log the error message if minimal-distance-error', () => {
     const error = new ErrorStart('Test error');
     showError(error);
-    expect(consoleErrorMock).toHaveBeenCalledWith('start: Test error');
+    expect(stderr).toHaveBeenCalledWith('start: Test error');
   });
 
   it('should log the error message if default-error', () => {
     const error = new Error('Test error');
     showError(error);
-    expect(consoleErrorMock).toHaveBeenCalledWith(error);
+    expect(stderr).toHaveBeenCalledWith('Error: Test error');
   });
 });

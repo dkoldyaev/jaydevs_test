@@ -1,5 +1,7 @@
+import { stdout } from '../stdout';
 import { getMinDistance, buildDistancesMatrix, buildChains } from './minimal-distance';
 import { TStartActionParams } from './types';
+
 
 export const startAction = (
   word1: string,
@@ -8,11 +10,11 @@ export const startAction = (
 ): void => {
   const dp = buildDistancesMatrix(word1, word2, costs);
   const minDistance = getMinDistance(dp);
-  console.log(minDistance);
+  stdout(minDistance);
 
   if (!numberOnly) {
     const chains = buildChains(word1, word2, dp);
-    console.log(chains.join('\n'));
+    stdout(chains.join('\n'));
   }
 };
 

@@ -1,5 +1,6 @@
 import { startAction } from './start';
 import { getMinDistance, buildChains, buildDistancesMatrix } from './minimal-distance';
+import { stderr, stdout } from '../stdout';
 
 jest.mock('./minimal-distance', () => ({
   buildChains: jest.fn(),
@@ -7,25 +8,14 @@ jest.mock('./minimal-distance', () => ({
   getMinDistance: jest.fn(),
 }));
 
+jest.mock('../stdout', () => ({
+  stderr: jest.fn(),
+  stdout: jest.fn(),
+}));
+
 describe('startAction', () => {
-  let consoleErrorMock;
-  let consoleLogMock;
-  let consoleWarnMock;
-
-  beforeAll(() => {
-    consoleErrorMock = jest.spyOn(console, 'error');
-    consoleLogMock = jest.spyOn(console, 'log');
-    consoleWarnMock = jest.spyOn(console, 'warn');
-  });
-
-  afterAll(() => {
-    consoleErrorMock.mockRestore();
-    consoleLogMock.mockRestore();
-    consoleWarnMock.mockRestore();
-  });
-
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it('should log result of startCommand to console when numbers only is not defined', () => {
@@ -43,9 +33,9 @@ describe('startAction', () => {
     expect(getMinDistance).toHaveBeenCalledWith(mockDp);
     expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
 
-    expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
-    expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
-    expect(consoleLogMock).toHaveBeenCalledTimes(2);
+    expect(stdout).toHaveBeenCalledWith('mock-distance');
+    expect(stdout).toHaveBeenCalledWith('mock-1\nmock-2');
+    expect(stdout).toHaveBeenCalledTimes(2);
   });
 
   it('should log result of startCommand to console when numbers only is false', () => {
@@ -63,9 +53,10 @@ describe('startAction', () => {
     expect(getMinDistance).toHaveBeenCalledWith(mockDp);
     expect(buildChains).toHaveBeenCalledWith(word1, word2, mockDp);
 
-    expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
-    expect(consoleLogMock).toHaveBeenCalledWith('mock-1\nmock-2');
-    expect(consoleLogMock).toHaveBeenCalledTimes(2);
+    expect(stdout).toHaveBeenCalledWith('mock-distance');
+    expect(stdout).toHaveBeenCalledWith('mock-1\nmock-2');
+    expect(stdout).toHaveBeenCalledTimes(2);
+    expect(stderr).not.toHaveBeenCalled();
   });
 
   it('should log result of startCommand to console when numbers only is true', () => {
@@ -83,8 +74,9 @@ describe('startAction', () => {
     expect(getMinDistance).toHaveBeenCalledWith(mockDp);
     expect(buildChains).not.toHaveBeenCalled();
 
-    expect(consoleLogMock).toHaveBeenCalledWith('mock-distance');
-    expect(consoleLogMock).toHaveBeenCalledTimes(1);
+    expect(stdout).toHaveBeenCalledWith('mock-distance');
+    expect(stdout).toHaveBeenCalledTimes(1);
+    expect(stderr).not.toHaveBeenCalled();
   });
 
 });
